@@ -1,8 +1,11 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.gem/ruby/2.5.0/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/valshatravenko/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -54,9 +57,6 @@ ZSH_THEME="robbyrussell"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-source <(kubectl completion zsh)
-source <(kops completion zsh)
-source <(helm completion zsh)
 
 # User configuration
 
@@ -154,9 +154,6 @@ alias gin="gem install --no-ri --no-rdoc"
 
 alias zshconf="vim ~/.zshrc && source ~/.zshrc"
 
-alias chrome-canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary"
-alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-
 function local_peatio()
 {
   export DATABASE_HOST="127.0.0.1"
@@ -164,7 +161,7 @@ function local_peatio()
   export DATABASE_USER="root"
 }
 
-export PATH=~/work/kite-dev/kite/bin:$PATH
+export PATH=~/work/kite/bin:$PATH
 
 
 export CHANGELOG_GITHUB_TOKEN="61474e68c24a036542d4ebb9c3002a3f6cbba669"
@@ -176,15 +173,19 @@ export AWS_SECRET_ACCESS_KEY="Yy/+Ko9rd1mNLlBsC5mMnSuA3IrXFvCZOnjDZUOC"
 
 export BOSH_ALL_PROXY=socks5://localhost:5000
 
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/valshatravenko/data/gcloud/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/valshatravenko/data/gcloud/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/valshatravenko/data/gcloud/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/valshatravenko/data/gcloud/google-cloud-sdk/completion.zsh.inc'; fi
+#export NVM_DIR="$HOME/.nvm"
+#. "/usr/local/opt/nvm/nvm.sh"
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/vault vault
-complete -C aws_completer aws
+#complete -o nospace -C /usr/local/bin/vault vault
+#complete -C aws_completer aws
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/d33p/data/google-cloud-sdk/path.zsh.inc' ]; then source '/home/d33p/data/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/d33p/data/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/d33p/data/google-cloud-sdk/completion.zsh.inc'; fi
+
+source <(kubectl completion zsh)
+# source <(kops completion zsh)
+source <(helm completion zsh)

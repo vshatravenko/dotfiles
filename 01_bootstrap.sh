@@ -2,7 +2,7 @@
 
 set -xe
 
-./deps.sh
+# ./deps.sh
 
 CWD=$(pwd)
 
@@ -28,7 +28,8 @@ vim +PluginInstall +qall
 ### zsh ###
 rm -rf "$HOME/.*zsh*"
 
-sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+ curl https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh -c
+
 
 rm "$HOME/.zshrc"
 ln "$CWD/zshrc" "$HOME/.zshrc"
