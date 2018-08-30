@@ -4,7 +4,7 @@ local wibox = require("wibox")
 
 kbdcfg = {}
 kbdcfg.cmd = "setxkbmap"
-kbdcfg.layout = { { "us", "" , "US" }, { "ua", "" , "UA" }, { "ru", "" , "RU" } } 
+kbdcfg.layout = { { "US", "" , "US" }, { "UA", "" , "UA" }, { "RU", "" , "RU" } }
 kbdcfg.current = 1  -- us is our default layout
 kbdcfg.widget = wibox.widget.textbox()
 kbdcfg.widget:set_text(" " .. kbdcfg.layout[kbdcfg.current][3] .. " ")
@@ -15,7 +15,7 @@ kbdcfg.switch = function ()
   os.execute( kbdcfg.cmd .. " " .. t[1] .. " " .. t[2] )
 end
 
- -- Mouse bindings
+-- Mouse bindings
 kbdcfg.widget:buttons(
- awful.util.table.join(awful.button({ }, 1, function () kbdcfg.switch() end))
+  awful.util.table.join(awful.button({ }, 1, function () kbdcfg.switch() end))
 )
