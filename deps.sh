@@ -7,7 +7,7 @@ curl https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd6
 sudo unzip terraform.zip -d /usr/local/bin/terraform
 sudo chmod +x /usr/local/bin/terraform
 
-sudo pacman -Sy docker
+sudo pacman -Sy --noconfirm docker
 sudo usermod -aG docker d33p
 sudo systemctl enable docker
 sudo systemctl start docker

@@ -28,7 +28,7 @@ vim +PluginInstall +qall
 ### zsh ###
 rm -rf "$HOME/.*zsh*"
 
- curl https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh -c
+curl https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh -c
 
 
 rm "$HOME/.zshrc"
