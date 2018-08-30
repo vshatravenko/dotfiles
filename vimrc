@@ -33,6 +33,9 @@ Plugin 'avakhov/vim-yaml'
 Plugin 'posva/vim-vue'
 Plugin 'haskell.vim'
 Plugin 'leafgarland/typescript-vim'
+Plugin 'b4b4r07/vim-hcl'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'cespare/vim-toml'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
