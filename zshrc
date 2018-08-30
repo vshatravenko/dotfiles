@@ -128,7 +128,7 @@ function local_peatio()
 export PATH=~/work/kite/bin:$PATH
 
 
-export CHANGELOG_GITHUB_TOKEN="61474e68c24a036542d4ebb9c3002a3f6cbba669"
+# export CHANGELOG_GITHUB_TOKEN="blm"
 
 export DOCKER_ID_USER="valshatravenko"
 
