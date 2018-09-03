@@ -11,19 +11,20 @@ if ! test -d "$HOME/.config"; then
   mkdir "$HOME/.config" 2>/dev/null
 fi
 
-mkdir -p "$HOME/.vim/colors"
 
 ln -s "$CWD/config/awesome" "$HOME/.config/"
 
+
 ### vim
-ln "$CWD/vimrc" "$HOME/.vimrc"
-
-wget https://raw.githubusercontent.com/morhetz/gruvbox/master/colors/gruvbox.vim -P "$HOME/.vim/colors"
-
-git clone https://github.com/VundleVim/Vundle.vim.git "$HOME/.vim/bundle/Vundle.vim"
-
-### installing vim plugins may take long time
-vim +PluginInstall +qall
+#mkdir -p "$HOME/.vim/colors"
+#
+#
+#wget https://raw.githubusercontent.com/morhetz/gruvbox/master/colors/gruvbox.vim -P "$HOME/.vim/colors"
+#
+#git clone https://github.com/VundleVim/Vundle.vim.git "$HOME/.vim/bundle/Vundle.vim"
+#
+#### installing vim plugins may take long time
+#vim +PluginInstall +qall
 
 ### zsh ###
 rm -rf "$HOME/.*zsh*"

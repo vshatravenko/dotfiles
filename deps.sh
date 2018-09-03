@@ -2,7 +2,11 @@
 
 alias sp="sudo pacman -Sy --noconfirm"
 
-sp go ruby unzip
+sp go ruby unzip neovim
+
+# Neo + Space Vim
+ln "$CWD/vimrc" "$HOME/.vimrc"
+curl -sLf https://spacevim.org/install.sh | bash
 
 ### Golang
 mkdir -p ${}/{src,pkg,bin}
