@@ -2,6 +2,13 @@
 
 alias sp="sudo pacman -Sy --noconfirm"
 
+# Alsa
+sp alsautils alsa-firmware
+
+# PulseAudio
+sp pulseaudio pavucontrol
+yay -S pulseeffects
+
 sp go ruby unzip neovim
 
 # Neo + Space Vim
