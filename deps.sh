@@ -9,7 +9,7 @@ sp alsautils alsa-firmware
 sp pulseaudio pavucontrol
 yay -S pulseeffects
 
-sp go ruby unzip neovim
+sp amdgpu mesa go ruby unzip neovim
 
 # Neo + Space Vim
 ln "$CWD/vimrc" "$HOME/.vimrc"
