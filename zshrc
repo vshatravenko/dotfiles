@@ -141,12 +141,12 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 complete -C aws_completer aws
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/d33p/data/google-cloud-sdk/path.zsh.inc' ]; then source '/home/d33p/data/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/d33p/data/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/d33p/data/google-cloud-sdk/completion.zsh.inc'; fi
-
 source <(kubectl completion zsh)
 source <(kops completion zsh)
 source <(helm completion zsh)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/d33p/google-cloud-sdk/path.zsh.inc' ]; then source '/home/d33p/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/d33p/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/d33p/google-cloud-sdk/completion.zsh.inc'; fi

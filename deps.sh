@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-alias sp="sudo pacman -Sy --noconfirm"
+function sp() {
+  sudo pacman -Sy --noconfirm $@
+}
 
 # Alsa
-sp alsautils alsa-firmware
+sp alsa-utils alsa-firmware
 
 # PulseAudio
 sp pulseaudio pavucontrol
