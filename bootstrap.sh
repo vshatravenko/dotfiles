@@ -2,7 +2,7 @@
 
 set -xe
 
-# ./deps.sh
+./deps.sh
 
 CWD=$(pwd)
 
@@ -15,14 +15,14 @@ mkdir -p "$HOME/.vim/colors"
 
 ln -s "$CWD/config/awesome" "$HOME/.config/"
 
-### vim ###
+### vim
 ln "$CWD/vimrc" "$HOME/.vimrc"
 
 wget https://raw.githubusercontent.com/morhetz/gruvbox/master/colors/gruvbox.vim -P "$HOME/.vim/colors"
 
 git clone https://github.com/VundleVim/Vundle.vim.git "$HOME/.vim/bundle/Vundle.vim"
 
-# installing vim plugins may take long time
+### installing vim plugins may take long time
 vim +PluginInstall +qall
 
 ### zsh ###
@@ -30,16 +30,4 @@ rm -rf "$HOME/.*zsh*"
 
 curl https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh -c
 
-
-rm "$HOME/.zshrc"
 ln "$CWD/zshrc" "$HOME/.zshrc"
-
-### root ###
-mkdir -p "$HOME/root/{bin,usr/local/apps}"
-
-usrlocal="$HOME/root/usr/local"
-apps="$usrlocal/apps"
-
-### golang ###
-mkdir "$usrlocal/go"
-
