@@ -247,7 +247,7 @@ awful.key({ modkey }, ',', function () awful.screen.focus_relative( 1) end),
 awful.key({ modkey }, '.', function () awful.screen.focus_relative(-1) end),
 
 -- Standard program
-awful.key({ modkey, 'Control' }, 'f', function () awful.util.spawn(browser) end),
+awful.key({ modkey }, 'b', function () awful.util.spawn(browser) end),
 awful.key({ modkey }, 'Return', function () awful.util.spawn(terminal) end),
 awful.key({ modkey }, 'a', function () awful.util.spawn('code') end),
 awful.key({ modkey }, 's', function () awful.util.spawn('slack') end),
