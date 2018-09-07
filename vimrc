@@ -91,8 +91,6 @@ nmap <F8> :TagbarToggle<CR>
 
 " Solarize
 "
-
-colorscheme gruvbox
 set background=dark
 
 let g:airline#extensions#tabline#enabled = 1
