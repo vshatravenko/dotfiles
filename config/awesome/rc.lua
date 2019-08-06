@@ -389,6 +389,8 @@ client.connect_signal('manage', function (c, startup)
   end
 end)
 
+-- }}}
+--
 os.execute("xrandr --auto --output DVI-I-1 --right-of HDMI-1")
 os.execute("xset r rate 200 60")
--- }}}
+awful.spawn.with_shell("~/.config/awesome/autorun.sh")
