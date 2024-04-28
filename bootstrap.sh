@@ -1,36 +1,59 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 target_user=${1:-d33p}
+github_user=${2:-vshatravenko}
+github_email=${3:-"vshatravenko@gmail.com"}
+github_name=${3:-"Valentine Shatravenko"}
 
 function sp() {
   sudo pacman -Sy --noconfirm "$@"
 }
 
-function install_yay () {
-  git clone https://aur.archlinux.org/yay.git
-  cd yay || return
-  makepkg -si
-  cd .. && rm -rf yay
+function install_ohmyzsh() {
+  rm -rf /home/${target_user}/.oh-my-zsh
+  cd /home/${target_user}
+  sudo -u d33p CHSH=yes RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  cd -
+  rm -rf "/home/${target_user}"/.zsh*
+  ln "./config/zshrc" "/home/${target_user}/.zshrc"
 }
 
 function init_nvim () {
   nvim_src="config/nvim-conf"
   nvim_home="${HOME}/.config/nvim"
-  mkdir -p "${nvim_home}"
-  ln "${nvim_src}" "${nvim_home}"
+  mkdir -p "$(dirname ${nvim_home})"
+  ln -s "${nvim_src}" "${nvim_home}" || echo "Could not link the new NeoVim config"
 }
 
-# Configure parallelism for pacman
-sudo sed -i "s/\# ParallelDownloads.*/ParallelDownloads = $(nproc)/" /etc/pacman.conf
+function init_gcloud () {
+  rm -rf /home/${target_user}/google-cloud-sdk
+  curl https://sdk.cloud.google.com | sudo -u ${target_user} CLOUDSDK_CORE_DISABLE_PROMPTS=1 bash
+  sudo -u ${target_user} zsh -c "source /home/${target_user}/google-cloud-sdk/path.zsh.inc && gcloud init" || echo "Error encountered during init"
+  sudo -u ${target_user} zsh -c "source /home/${target_user}/google-cloud-sdk/path.zsh.inc && gcloud components install kubectl" 
+}
 
-# zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-rm -rf "${HOME}"/.*zsh*
-ln "./zshrc" "$HOME/.zshrc"
+function init_git () {
+sudo -u ${target_user} sh <<EOF
+git config --global user.name "${github_name}"
+git config --global user.email "${github_email}"
+EOF
+}
 
-sp zsh go ruby unzip neovim terraform ansible ripgrep bat zsh
+
+# sudo setup
+echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' | EDITOR='tee -a' visudo
+usermod -aG wheel ${target_user}
+
+# Configure parallelism and colors for pacman
+sed -i "s/\# ParallelDownloads.*/ParallelDownloads = $(nproc)/" /etc/pacman.conf
+sed -i '/Color/s/^#//g' /etc/pacman.conf
+
+sp yay git zsh go ruby unzip neovim terraform ansible ripgrep bat zsh rust
+
+# Oh My ZSH
+install_ohmyzsh
 
 # NeoVim setup
 init_nvim
@@ -38,27 +61,24 @@ init_nvim
 # Required dirs for Golang
 mkdir -p "${HOME}"/{src,pkg,bin}
 
-# Rust
-curl https://sh.rustup.rs -sSf | sh
-
 # Docker
 sp docker
-sudo usermod -aG docker "${target_user}"
-sudo systemctl start docker
-sudo systemctl enable docker
+usermod -aG docker "${target_user}"
+systemctl start docker
+systemctl enable docker
 
 # gcloud
-curl https://sdk.cloud.google.com | bash
-gcloud init
-
-# kubectl
-gcloud components install kubectl
+init_gcloud
 
 # helm
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-# yay
-install_yay || echo "error: yay could not be installed"
+sudo -u ${target_user} sh -c "curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash"
 
 # exa
-cargo install exa
+sudo -u ${target_user} zsh -c "source ~/.zshrc && cargo install exa"
+
+# SSH access setup
+mkdir /home/${target_user}/.ssh
+curl https://github.com/${github_user}.keys >> /home/${target_user}/.ssh/authorized_keys
+
+# Git
+init_git
