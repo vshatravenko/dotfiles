@@ -22,7 +22,7 @@ function install_ohmyzsh() {
 
 function init_nvim () {
   nvim_src="config/nvim-conf"
-  nvim_home="${HOME}/.config/nvim"
+  nvim_home="/home/${target_user}/.config/nvim"
   mkdir -p "$(dirname ${nvim_home})"
   ln -s "${nvim_src}" "${nvim_home}" || echo "Could not link the new NeoVim config"
 }
@@ -31,7 +31,6 @@ function init_gcloud () {
   rm -rf /home/${target_user}/google-cloud-sdk
   curl https://sdk.cloud.google.com | sudo -u ${target_user} CLOUDSDK_CORE_DISABLE_PROMPTS=1 bash
   sudo -u ${target_user} zsh -c "source /home/${target_user}/google-cloud-sdk/path.zsh.inc && gcloud init" || echo "Error encountered during init"
-  sudo -u ${target_user} zsh -c "source /home/${target_user}/google-cloud-sdk/path.zsh.inc && gcloud components install kubectl" 
 }
 
 function init_git () {
@@ -41,7 +40,6 @@ git config --global user.email "${github_email}"
 EOF
 }
 
-
 # sudo setup
 echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' | EDITOR='tee -a' visudo
 usermod -aG wheel ${target_user}
@@ -50,7 +48,7 @@ usermod -aG wheel ${target_user}
 sed -i "s/\# ParallelDownloads.*/ParallelDownloads = $(nproc)/" /etc/pacman.conf
 sed -i '/Color/s/^#//g' /etc/pacman.conf
 
-sp yay git zsh go ruby unzip neovim terraform ansible ripgrep bat zsh rust
+sp yay git zsh go ruby unzip neovim terraform ansible ripgrep bat zsh rust kubectl helm
 
 # Oh My ZSH
 install_ohmyzsh
@@ -69,9 +67,6 @@ systemctl enable docker
 
 # gcloud
 init_gcloud
-
-# helm
-sudo -u ${target_user} sh -c "curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash"
 
 # exa
 sudo -u ${target_user} zsh -c "source ~/.zshrc && cargo install exa"
