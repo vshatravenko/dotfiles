@@ -1,9 +1,8 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=$HOME/.gem/ruby/2.5.0/bin:$PATH
-
 export GOPATH=$HOME/work/go
 export PATH=$GOPATH/bin:$PATH
+export PATH="${HOME}/.cargo/bin:${PATH}"
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -118,18 +117,6 @@ alias zshconf="vim ~/.zshrc && source ~/.zshrc"
 
 alias sp="sudo pacman"
 alias sc="sudo systemctl"
-
-function local_peatio()
-{
-  export DATABASE_HOST="127.0.0.1"
-  export DATABASE_PASS="changeme"
-  export DATABASE_USER="root"
-}
-
-export PATH=~/work/kite/bin:$PATH
-
-
-# export CHANGELOG_GITHUB_TOKEN="blm"
 
 export DOCKER_ID_USER="valshatravenko"
 

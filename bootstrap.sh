@@ -21,10 +21,15 @@ function install_ohmyzsh() {
 }
 
 function init_nvim () {
-  nvim_src="config/nvim-conf"
+  git submodule update --recursive
+  nvim_src="${PWD}/config/nvim-conf"
   nvim_home="/home/${target_user}/.config/nvim"
   mkdir -p "$(dirname ${nvim_home})"
   ln -s "${nvim_src}" "${nvim_home}" || echo "Could not link the new NeoVim config"
+}
+function init_docker () { usermod -aG docker "${target_user}"
+  systemctl start docker
+  systemctl enable docker
 }
 
 function init_gcloud () {
@@ -48,9 +53,9 @@ usermod -aG wheel ${target_user}
 sed -i "s/\# ParallelDownloads.*/ParallelDownloads = $(nproc)/" /etc/pacman.conf
 sed -i '/Color/s/^#//g' /etc/pacman.conf
 
-sp yay git zsh go ruby unzip neovim terraform ansible ripgrep bat zsh rust kubectl helm
-
-# Oh My ZSH
+sp yay git zsh go ruby unzip neovim terraform ansible ripgrep bat zsh rust kubectl helm docker docker-compose nodejs
+ 
+# # Oh My ZSH
 install_ohmyzsh
 
 # NeoVim setup
@@ -60,10 +65,6 @@ init_nvim
 mkdir -p "${HOME}"/{src,pkg,bin}
 
 # Docker
-sp docker
-usermod -aG docker "${target_user}"
-systemctl start docker
-systemctl enable docker
 
 # gcloud
 init_gcloud
@@ -72,7 +73,7 @@ init_gcloud
 sudo -u ${target_user} zsh -c "source ~/.zshrc && cargo install exa"
 
 # SSH access setup
-mkdir /home/${target_user}/.ssh
+mkdir -p /home/${target_user}/.ssh
 curl https://github.com/${github_user}.keys >> /home/${target_user}/.ssh/authorized_keys
 
 # Git
