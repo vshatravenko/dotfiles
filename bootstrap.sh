@@ -1,30 +1,64 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-set -xe
+set -e
 
-### zsh ###
-sudo pacman -Sy zsh
+target_user=${1:-d33p}
+
+function sp() {
+  sudo pacman -Sy --noconfirm "$@"
+}
+
+function install_yay () {
+  git clone https://aur.archlinux.org/yay.git
+  cd yay || return
+  makepkg -si
+  cd .. && rm -rf yay
+}
+
+function init_nvim () {
+  nvim_src="config/nvim-conf"
+  nvim_home="${HOME}/.config/nvim"
+  mkdir -p "${nvim_home}"
+  ln "${nvim_src}" "${nvim_home}"
+}
+
+# Configure parallelism for pacman
+sudo sed -i "s/\# ParallelDownloads.*/ParallelDownloads = $(nproc)/" /etc/pacman.conf
+
+# zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-rm -rf ${HOME}/.*zsh*
+rm -rf "${HOME}"/.*zsh*
 ln "./zshrc" "$HOME/.zshrc"
 
-./deps.sh
+sp zsh go ruby unzip neovim terraform ansible ripgrep bat zsh
 
-#rm -rf "$HOME/.config/awesome" "$HOME/.vimrc" "$HOME/.vim"
-#if ! test -d "$HOME/.config"; then
-#  mkdir "$HOME/.config" 2>/dev/null
-#fi
+# NeoVim setup
+init_nvim
 
-# ln -s "$CWD/config/awesome" "$HOME/.config/"
+# Required dirs for Golang
+mkdir -p "${HOME}"/{src,pkg,bin}
 
-### vim
-#mkdir -p "$HOME/.vim/colors"
-#
-#
-#wget https://raw.githubusercontent.com/morhetz/gruvbox/master/colors/gruvbox.vim -P "$HOME/.vim/colors"
-#
-#git clone https://github.com/VundleVim/Vundle.vim.git "$HOME/.vim/bundle/Vundle.vim"
-#
-#### installing vim plugins may take long time
-#vim +PluginInstall +qall
+# Rust
+curl https://sh.rustup.rs -sSf | sh
 
+# Docker
+sp docker
+sudo usermod -aG docker "${target_user}"
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# gcloud
+curl https://sdk.cloud.google.com | bash
+gcloud init
+
+# kubectl
+gcloud components install kubectl
+
+# helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# yay
+install_yay || echo "error: yay could not be installed"
+
+# exa
+cargo install exa
