@@ -20,27 +20,26 @@ function install_ohmyzsh() {
   ln "./config/zshrc" "/home/${target_user}/.zshrc"
 }
 
-function init_nvim () {
+function init_nvim() {
   nvim_src="config/nvim-conf"
   nvim_home="${HOME}/.config/nvim"
   mkdir -p "$(dirname ${nvim_home})"
   ln -s "${nvim_src}" "${nvim_home}" || echo "Could not link the new NeoVim config"
 }
 
-function init_gcloud () {
+function init_gcloud() {
   rm -rf /home/${target_user}/google-cloud-sdk
   curl https://sdk.cloud.google.com | sudo -u ${target_user} CLOUDSDK_CORE_DISABLE_PROMPTS=1 bash
   sudo -u ${target_user} zsh -c "source /home/${target_user}/google-cloud-sdk/path.zsh.inc && gcloud init" || echo "Error encountered during init"
-  sudo -u ${target_user} zsh -c "source /home/${target_user}/google-cloud-sdk/path.zsh.inc && gcloud components install kubectl" 
+  sudo -u ${target_user} zsh -c "source /home/${target_user}/google-cloud-sdk/path.zsh.inc && gcloud components install kubectl"
 }
 
-function init_git () {
-sudo -u ${target_user} sh <<EOF
+function init_git() {
+  sudo -u ${target_user} sh <<EOF
 git config --global user.name "${github_name}"
 git config --global user.email "${github_email}"
 EOF
 }
-
 
 # sudo setup
 echo '%wheel ALL=(ALL:ALL) NOPASSWD: ALL' | EDITOR='tee -a' visudo
@@ -78,7 +77,7 @@ sudo -u ${target_user} zsh -c "source ~/.zshrc && cargo install exa"
 
 # SSH access setup
 mkdir /home/${target_user}/.ssh
-curl https://github.com/${github_user}.keys >> /home/${target_user}/.ssh/authorized_keys
+curl https://github.com/${github_user}.keys >>/home/${target_user}/.ssh/authorized_keys
 
 # Git
 init_git
